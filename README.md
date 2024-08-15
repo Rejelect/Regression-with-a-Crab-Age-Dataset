@@ -1,25 +1,26 @@
 # Regression with a Crab Age Dataset
 
-## Maqsad
-Ushbu loyiha "Crab Age" (Qisqichbaqa yoshi) datasetidan foydalanib, regressiya modellari yordamida qisqichbaqalar yoshini bashorat qilishga qaratilgan. Loyihada turli regressiya modellari va ularning kombinatsiyalari qo'llanilgan.
 
-## Dataset haqida
-Ushbu datasetda 15,000 ta yozuv mavjud va 9 ta ustun bor:
+## Objective
+This project aims to predict the age of crabs using regression models based on the "Crab Age" dataset. Various regression models and their combinations were employed in the project.
 
-- `Sex`: Qisqichbaqaning jinsi (object)
-- `Length`: Qisqichbaqaning uzunligi (mm, float64)
-- `Diameter`: Qisqichbaqaning diametri (mm, float64)
-- `Height`: Qisqichbaqaning balandligi (mm, float64)
-- `Weight`: Qisqichbaqaning og'irligi (g, float64)
-- `Shucked Weight`: Yopiq qisqichbaqaning og'irligi (g, float64)
-- `Viscera Weight`: Ichak og'irligi (g, float64)
-- `Shell Weight`: Qobiq og'irligi (g, float64)
-- `Age`: Qisqichbaqaning yoshi (yil, float64)
+## About the Dataset
+The dataset contains 15,000 entries and 9 columns:
 
-Datasetning xotira hajmi 1.7 MB.
+- `Sex`: The sex of the crab (object)
+- `Length`: The length of the crab (mm, float64)
+- `Diameter`: The diameter of the crab (mm, float64)
+- `Height`: The height of the crab (mm, float64)
+- `Weight`: The weight of the crab (g, float64)
+- `Shucked Weight`: The weight of the crab meat (g, float64)
+- `Viscera Weight`: The weight of the viscera (g, float64)
+- `Shell Weight`: The weight of the shell (g, float64)
+- `Age`: The age of the crab (years, float64)
 
-## Kutubxonalar
-Loyihada quyidagi Python kutubxonalari ishlatilgan:
+The dataset's memory usage is 1.7 MB.
+
+## Libraries Used
+The following Python libraries were used in the project:
 
 ```python
 import numpy as np
@@ -35,7 +36,7 @@ from sklearn.metrics import mean_absolute_error as MAE
 ```
 
 ## Feature Engineering
-Qisqichbaqalarning turli o'lchamlarini hisoblash va yangi xususiyatlarni yaratish uchun quyidagi formula va funksiyalar ishlatilgan:
+The project involved calculating various measurements of the crabs and creating new features using the following formulas and functions:
 
 - **Viscera Ratio** = Viscera Weight / Weight
 - **Shell-to-body Ratio** = Shell Weight / Weight
@@ -45,7 +46,7 @@ Qisqichbaqalarning turli o'lchamlarini hisoblash va yangi xususiyatlarni yaratis
 - **Weight-to-ShellWeight Ratio** = Weight / Shell Weight
 - **Weight-to-ShuckedWeight Ratio** = Weight / Shucked Weight
 
-Funksiya:
+Function:
 
 ```python
 def feature_engineering(df):
@@ -65,8 +66,8 @@ def feature_engineering(df):
     return df
 ```
 
-### Jinsni kodlash:
-Jinsni "One-Hot Encoding" usuli bilan kodlash uchun quyidagi funksiya ishlatiladi:
+### Encoding the Sex Feature:
+To encode the sex feature using the "One-Hot Encoding" method, the following function is used:
 
 ```python
 def encoder(df):
@@ -79,11 +80,11 @@ def encoder(df):
     return df
 ```
 
-## Modellar
-Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
+## Models
+The following regression models were tested in the project:
 
 1. **Linear Regression**:
-   - Polynomial darajasi: 2
+   - Polynomial degree: 2
    - Pipeline:
    ```python
    linear = Pipeline([
@@ -93,7 +94,7 @@ Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
    ```
 
 2. **Lasso Regression**:
-   - Polynomial darajasi: 3
+   - Polynomial degree: 3
    - Alpha: 0.0008
    - Pipeline:
    ```python
@@ -104,7 +105,7 @@ Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
    ```
 
 3. **Huber Regressor**:
-   - Polynomial darajasi: 2
+   - Polynomial degree: 2
    - Epsilon: 1.3
    - Pipeline:
    ```python
@@ -115,7 +116,7 @@ Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
    ```
 
 4. **Ridge Regression**:
-   - Polynomial darajasi: 2
+   - Polynomial degree: 2
    - Alpha: 4.2
    - Pipeline:
    ```python
@@ -136,9 +137,9 @@ Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
    ```
 
 6. **Stacking Regressor**:
-   - Birlamchi modellari:
+   - Base models:
      - Ridge, Linear, Lasso, Huber, ElasticNet
-   - Yakuniy model: Huber Regressor
+   - Final model: Huber Regressor
    - Pipeline:
    ```python
    stacking = StackingRegressor(
@@ -153,3 +154,4 @@ Loyihada quyidagi regressiya modellari sinovdan o'tkazildi:
        cv=5
    )
    ```
+
